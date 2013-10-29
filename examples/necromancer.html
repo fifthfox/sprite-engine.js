@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="../src/scene.js"></script>
+		<script type="text/javascript" src="../src/layer.js"></script>
+		<script type="text/javascript" src="../src/sprite.js"></script>
+		<style type="text/css">
+			#myGame { background-color: #EF5D5D; }
+		</style>
+	</head>
+	<body>
+		<div id="myGame"></div>
+		<script type="text/javascript">
+			var myScene = new Scene({
+				id: 'myGame',
+				size: {
+					width: 600,
+					height: 400
+				},
+				layers: [
+					'background',
+					'foreground'
+				]
+			});
+			
+			var necro = new Sprite({
+				position: {
+					x: 100,
+					y: 100
+				},
+				rotation: 0,
+				spriteSheet: 'necromancer.png',
+				size: {
+					width: 32,
+					height: 32
+				},
+				speed: 0.05
+			});
+			
+			myScene.layers[1].sprites.push(necro);
+			myScene.run();
+			
+			myScene.element.onclick = function(event) {
+				necro.setTarget({
+					x: event.pageX - this.offsetLeft,
+					y: event.pageY - this.offsetTop
+				});
+			};
+		</script>
+	</body>
+</html>
