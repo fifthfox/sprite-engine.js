@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="../src/scene.js"></script>
+		<script type="text/javascript" src="../src/layer.js"></script>
+		<script type="text/javascript" src="../src/sprite.js"></script>
+		<style type="text/css">
+			#myGame { background-color: #EEE; }
+			canvas { display: block; }
+		</style>
+	</head>
+	<body>
+		<div id="myGame"></div>
+		<script type="text/javascript">
+			var myScene = new Scene({
+				id: 'myGame',
+				size: {
+					width: window.innerWidth,
+					height: window.innerHeight
+				},
+				layers: [
+					'main'
+				]
+			});
+			
+			var cat = new Sprite({
+				position: {
+					x: 100,
+					y: 100
+				},
+				rotation: 0,
+				scale: {
+					x: 1,
+					y: 1
+				},
+				spriteSheet: 'cat.png',
+				size: {
+					width: 256,
+					height: 128
+				},
+				timePerFrame: 60,
+				stateFrameLengths: [8],
+				speed: 0.35,
+				onUpdate: function(vars) {
+					if((vars.dx < 0 && this.scale.x > 0) || (vars.dx > 0 && this.scale.x < 0))
+						this.scale.x *= -1;
+				},
+				onReachTarget: function() {}
+			});
+			
+			myScene.layers[0].sprites.push(cat);
+			
+			var babyCats = [];
+			while(babyCats.length < 5) {
+				babyCats.push(new Sprite({
+					position: {
+						x: Math.random() * 800,
+						y: Math.random() * 600
+					},
+					rotation: 0,
+					scale: {
+						x: 0.3,
+						y: 0.3
+					},
+					spriteSheet: 'cat.png',
+					size: {
+						width: 256,
+						height: 128
+					},
+					timePerFrame: 60,
+					stateFrameLengths: [8],
+					speed: Math.random() / 5 + 0.1,
+					target: cat.position,
+					onUpdate: function(vars) {
+						if((vars.dx < 0 && this.scale.x > 0) || (vars.dx > 0 && this.scale.x < 0))
+							this.scale.x *= -1;
+					},
+					onReachTarget: function() {this.target = cat.position;}
+				}));
+			}
+			for(var n in babyCats) {
+				myScene.layers[0].sprites.push(babyCats[n]);
+			}
+			
+			myScene.run();
+			
+			myScene.element.onmousemove = function(event) {
+				cat.target = {
+					x: event.pageX - this.offsetLeft,
+					y: event.pageY - this.offsetTop
+				};
+			};
+		</script>
+	</body>
+</html>

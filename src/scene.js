@@ -35,7 +35,7 @@ function Scene(config) {
 	};
 	
 	// Store last tick time to calculate dt
-	this.lastTickTime;
+	this.lastTickTime = 0;
 	
 	// The main loop
 	this.tick = function(tickTime) {

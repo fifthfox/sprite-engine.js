@@ -29,22 +29,39 @@
 					y: 100
 				},
 				rotation: 0,
+				scale: {
+					x: 1,
+					y: 1
+				},
 				spriteSheet: 'necromancer.png',
 				size: {
 					width: 32,
 					height: 32
 				},
-				speed: 0.05
+				timePerFrame: 1000,
+				stateFrameLengths: [1, 1],
+				speed: 0.05,
+				onUpdate: function(vars) {
+					switch(vars.dx > 0) {
+						case true:
+							this.state = 0;
+							break;
+						case false:
+							this.state = 1;
+							break;
+					}
+				},
+				onReachTarget: function() {}
 			});
 			
 			myScene.layers[1].sprites.push(necro);
 			myScene.run();
 			
 			myScene.element.onclick = function(event) {
-				necro.setTarget({
+				necro.target = {
 					x: event.pageX - this.offsetLeft,
 					y: event.pageY - this.offsetTop
-				});
+				};
 			};
 		</script>
 	</body>
