@@ -35,13 +35,14 @@ function Scene(config) {
 	};
 	
 	// Store last tick time to calculate dt
-	this.lastTickTime = 0;
+	this.lastTickTime;
 	
 	// The main loop
 	this.tick = function(tickTime) {
 		var dt = tickTime - scene.lastTickTime;
 		scene.lastTickTime = tickTime;
-		scene.update(dt);
+		if(dt)
+			scene.update(dt);
 		scene.draw();
 		scene.requestID = window.requestAnimationFrame(scene.tick);
 	};
